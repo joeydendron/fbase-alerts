@@ -1,0 +1,14 @@
+{
+    "name": "joeydendron/fbase-alerts",
+    "description": "PHP package to create alerts in a Firebase real-time database",
+    "type": "library",
+    "license": "proprietary",
+    "authors": [
+        {
+            "name": "joeydendron",
+            "email": "joey.dendron@gmail.com"
+        }
+    ],
+    "minimum-stability": "dev",
+    "require": {}
+}
