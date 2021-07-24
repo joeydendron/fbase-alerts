@@ -13,5 +13,10 @@
     "require": {
         "php": ">=7.3.0",
         "kreait/firebase-php": "^5.19"
+    },
+    "autoload": {
+        "psr-4": {
+            "JoeyDendron\\": "src/JoeyDendron/"
+        }
     }
 }
