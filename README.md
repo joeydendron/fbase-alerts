@@ -4,9 +4,9 @@
 
 I'd written a simple Alerter class, so that during PHP project development I could send informative alerts to a Slack channel.
 
-But occasionally there are situations where code will pepper the Slack channel with alerts, and it's annoying to have to wade through and delete them in Slack's UI.
+But occasionally there are situations where code peppers the Slack channel with multiple alerts, and it's annoying to have to wade through and delete them in Slack's UI.
 
-So as an exercise in getting to know Firebase I thought I'd replicate the functionality but with a Firebase backend.
+So as an exercise in getting to know Firebase I thought I'd replicate the functionality but with a Firebase backend... so I can build something like a Vue front-end with quick and easy alert deletion.
 
 ## Requirements
 
