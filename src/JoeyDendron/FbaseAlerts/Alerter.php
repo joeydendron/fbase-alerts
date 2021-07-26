@@ -7,13 +7,18 @@ class Alerter {
     private $db;
 
     public static function alert($subject, $body) {
-        if(!$instance = self::instance()) return;
 
-        $instance->alertsRef()->push([
-            'subject' => ($hostName = gethostname()) ? "{$hostName} - {$subject}" : $subject,
-            'body' => is_string($body) ? trim($body) : print_r($body, true),
-            'created_at' => mktime()
-        ]);
+        try {
+            if(!$instance = self::instance()) return;
+            $instance->alertsRef()->push([
+                'subject' => ($hostName = gethostname()) ? "{$hostName} - {$subject}" : $subject,
+                'body' => is_string($body) ? trim($body) : print_r($body, true),
+                'created_at' => mktime()
+            ]);
+        }
+        catch(Throwable $e) {
+            return;//   Don't throw any internally-raised exceptions...
+        }
     }
 
     public static function alertException($subject, Exception $e) {
