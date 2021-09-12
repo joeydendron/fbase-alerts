@@ -20,11 +20,11 @@ class Alerter {
         }
     }
 
-    public static function alertException($subject, Exception $e) {
-        self::alertThrowable($subject, $e);
+    public static function alertException($subject, Exception $e, $extraContent = []) {
+        self::alertThrowable($subject, $e, $extraContent);
     }
 
-    public static function alertThrowable($subject, Throwable $throwable) {
+    public static function alertThrowable($subject, Throwable $throwable, $extraContent = []) {
         $trace = array_slice($throwable->getTrace(), 1, 15, true);
         $traceSummary = [];
 
@@ -32,11 +32,14 @@ class Alerter {
             if(isset($traceItem["file"]) && isset($traceItem["line"])) $traceSummary[] = "#{$i}: {$traceItem["file"]} ({$traceItem["line"]})";
         }
 
-        self::alert($subject, [
+        $content = [
             'message' => $throwable->getMessage(), 'file' => $throwable->getFile(), 'line' => $throwable->getLine(), 
-            'trace' => implode("\n", $traceSummary), 
-            'get' => $_GET, 'post' => $_POST, 'body_input' => file_get_contents('php://input')
-        ]);
+            'trace' => implode("\n", $traceSummary), 'class' => get_class($throwable), 'get' => $_GET, 'post' => $_POST, 
+            'body_input' => file_get_contents('php://input')
+        ];
+        if(is_array($extraContent) && !empty($extraContent)) $content = array_merge($content, $extraContent);
+
+        self::alert($subject, $content);
     }
 
     public static function instance() {
