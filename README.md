@@ -11,7 +11,6 @@ So as an exercise in getting to know Firebase I thought I'd replicate the functi
 ## Requirements
 
 - PHP >= 7.3
-- kreait/firebase package installed: `composer require kreait/firebase`
 - A Firebase project with a real-time database that has an *alerts* key at the top level.
 
 ## Installation
@@ -47,10 +46,14 @@ Then a new alert is pushed... as an associative array:
 
 Firebase creates an ordered, alphanumeric ID for the alert.
 
-**`Alerter::alertThrowable($subject, Throwable $throwable)`**
+**`Alerter::alertThrowable($subject, Throwable $throwable, $extraContent = [])`**
 
-Calls Alerter::alert() with `$body`set to a sringified version of the Throwable.
+Calls Alerter::alert() with `$body`set to a sringified version of the Throwable. You can pass an optional 
+array of values, and these will also be displayed in the resulting alert. So... you can write something 
+like
 
-**`Alerter::alertException($subject, Exception $e)`**
+`Alerter::alertThrowable('Oh dear', $throwable, [ 'important_variable' => $myVar ]);`
+
+**`Alerter::alertException($subject, Exception $e, $extraContent = [])`**
 
 Calls `Alerter::alertThrowable($subject, $e)`.
