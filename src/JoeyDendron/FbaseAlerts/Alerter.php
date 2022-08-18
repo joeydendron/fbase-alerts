@@ -7,7 +7,6 @@ class Alerter {
     private $db;
 
     public static function alert($subject, $body) {
-
         try {
             if(!$instance = self::instance()) return;
             $instance->alertsRef()->push([
@@ -42,6 +41,16 @@ class Alerter {
         self::alert($subject, $content);
     }
 
+    public static function reset() {
+        try {
+            if(!$instance = self::instance()) return;
+            $instance->alertsRef()->remove();
+        }
+        catch(Throwable $e) {
+            return;//   Don't throw any internally-raised exceptions...
+        }
+    }
+
     public static function instance() {
         if(!$pathToFBCredentials = getenv('JD_FIREBASE_PATH_TO_CREDENTIALS')) return false;
         if(!$dbUri = getenv('JD_FIREBASE_DB_URI')) return false;
@@ -58,7 +67,7 @@ class Alerter {
         $this->db = $db;
     }
 
-    private function alertsRef() {
+    public function alertsRef() {
         return $this->db->getReference('alerts');
     }
 }
