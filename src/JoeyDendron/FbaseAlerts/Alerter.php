@@ -63,8 +63,35 @@ class Alerter {
         return self::$instance;
     }
 
+    public static function deleteMany($n = 100) {
+        self::instance()->deleteNAlerts($n);
+    }
+
+    public static function childElementCount($key) {
+        return self::instance()->countOfChildElements($key);
+    }
+
     private function __construct(Database $db) {
         $this->db = $db;
+    }
+
+    public function delete($key) {
+        set_time_limit(20);
+        $r = $this->db->getReference($key)->remove();
+    }
+
+    public function countOfChildElements($key) {
+        set_time_limit(20);
+        $numChildren = $this->db->getReference($key)->shallow()->getSnapshot()->numChildren();
+        return $numChildren;
+    }
+
+    public function deleteNAlerts($n) {
+        $keys = $this->db->getReference('alerts')->shallow()->limitToFirst($n)->getSnapshot()->getValue();
+
+        foreach($keys as $key => $val) {
+            $this->delete("alerts/{$key}");
+        }
     }
 
     public function alertsRef() {
